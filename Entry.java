@@ -24,8 +24,12 @@ public class Entry {
 	 * @return  the String of values
 	 */
 	public String get() {
-		// TODO: implement this
-		return null;
+		String s = "[" + values.get(0);
+		for (int i = 1; i < values.size(); i++){
+			s += " " + values.get(i);
+		}
+		s += "]";
+		return s; 
 	}
 
 	/**
@@ -35,6 +39,7 @@ public class Entry {
 	 */
 	public void set(List<Integer> values) {
 		// TODO: implement this
+		this.values = values; 
 	}
 
 	/**
@@ -64,7 +69,8 @@ public class Entry {
 	 */
 	public Integer pick(int index) {
 		// TODO: implement this
-		return null;
+		Integer a = values.get(index);
+		return a;
 	}
 
 	/**
@@ -93,9 +99,14 @@ public class Entry {
 	 *
 	 * @return the minimum value
 	 */
-	public Integer min() {
-		// TODO: implement this
-		return null;
+	public Integer max() {
+		Integer min_value = values.get(0);
+		for(int i = 0; i < values.size(); i++){
+			if (values.get(i) < min_value){
+				min_value = values.get(i);
+			}
+		}
+		return min_value;
 	}
 
 	/**
@@ -104,8 +115,13 @@ public class Entry {
 	 * @return the maximum value
 	 */
 	public Integer max() {
-		// TODO: implement this
-		return null;
+		Integer max_value = values.get(0);
+		for(int i = 0; i < values.size(); i++){
+			if (values.get(i) > max_value){
+				max_value = values.get(i);
+			}
+		}
+		return max_value;
 	}
 
 	/**
@@ -114,8 +130,11 @@ public class Entry {
 	 * @return the sum
 	 */
 	public Integer sum() {
-		// TODO: implement this
-		return null;
+		Integer sum_value = 0;
+		for (Integer n : values){
+			sum_value += n;
+		}
+		return sum_value;
 	}
 
 	/**
@@ -125,7 +144,7 @@ public class Entry {
 	 */
 	public Integer len() {
 		// TODO: implement this
-		return null;
+		return values.size();
 	}
 
 	/**

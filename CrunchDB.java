@@ -49,6 +49,7 @@ public class CrunchDB {
 	 */
 	private void get(String key) {
 		// TODO: implement this
+		
 	}
 	
 	/**
@@ -77,6 +78,7 @@ public class CrunchDB {
 	 */
 	private void set(String key, List<Integer> values) {
 		// TODO: implement this
+		Entry(key, values);
 	}
 
 	/**

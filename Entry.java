@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Scanner; 
 
 /**
  * Entry deals with storing the key and value associated with entries in the
@@ -13,6 +14,8 @@ public class Entry {
 
 	public Entry(String key, List<Integer> values) {
 		// TODO: write the constructor
+		this.key = key;
+		this.values = values; 
 	}
 
 	/**
@@ -50,6 +53,7 @@ public class Entry {
 	 */
 	public void append(List<Integer> values) {
 		// TODO: implement this
+		
 	}
 
 	/**

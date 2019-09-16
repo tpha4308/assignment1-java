@@ -27,7 +27,14 @@ public class CrunchDB {
 	 * Displays all keys in current state.
 	 */
 	private void listKeys() {
-		// TODO: implement this
+		if (entries.size() == 0){
+			System.out.println("no keys");
+		}
+		if (entries.size() > 0){
+			for (int i = 0; i < entries.size(); i++){
+				System.out.println(entries.get(i).getKey());
+			}
+		}
 	}
 
 	/**
@@ -59,8 +66,12 @@ public class CrunchDB {
 	 * @param key the key of the entry
 	 */
 	private void get(String key) {
-		// TODO: implement this
-		
+		for (int i = 0; i < entries.size(); i++){
+			Entry entr = entries.get(i);
+			if (entr.getKey().equals(key)){
+				System.out.println(entr.get());
+			}
+		}
 	}
 	
 	/**
@@ -89,7 +100,9 @@ public class CrunchDB {
 	 */
 	private void set(String key, List<Integer> values) {
 		// TODO: implement this
-		Entry(key, values);
+		Entry new_entry = new Entry(key, values);
+		entries.add(new_entry);
+		System.out.println("ok");
 	}
 
 	/**

@@ -17,8 +17,10 @@ public class CrunchDB {
 	private List<Entry> entries;
 	private List<Snapshot> snapshots;
 
-	public CrunchDB() {
+	public CrunchDB(List<Entry> entries, List<Snapshot> snapshots) {
 		// TODO: write the constructor.
+		this.entries = entries; 
+		this.snapshots = snapshots;
 	}
 
 	/** 
@@ -32,7 +34,16 @@ public class CrunchDB {
 	 * Displays all entries in the current state.
 	 */
 	private void listEntries() {
-		// TODO: implement this
+		if (entries.size() == 0){
+			System.out.println("no entries");
+		}
+		if (entries.size() > 0){
+			for (int i = 0; i < entries.size(); i++){
+				String key = entries.get(i).getKey();
+				String vals = entries.get(i).get();
+				System.out.println(key + " " + vals);
+			}
+		}
 	}
 	
 	/**

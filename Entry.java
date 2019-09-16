@@ -272,8 +272,20 @@ public class Entry {
 	 * @return         the entries with their values
 	 */
 	public static String listAllEntries(List<Entry> entries) { 
-		// TODO: implement this
-		return null;
+		String display = "";
+		if (entries.size() == 0){
+			display += "no entries";
+		}
+		if (entries.size() > 0){
+			
+			for (int i = 0; i < entries.size(); i++){
+				String key = entries.get(i).getKey();
+				String vals = entries.get(i).get();
+				String each_entry = String.format("%s %s\n", key, vals);
+				display += each_entry;
+			}
+		}
+		return display;
 	}
 
 }

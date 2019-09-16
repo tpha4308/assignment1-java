@@ -24,17 +24,18 @@ public class Entry {
 	 * @return  the String of values
 	 */
 	public String get() {
-		
+		String vals = "";
 		if (values.size() > 0){
-			String vals = values.get(0);
+			vals += values.get(0);
 			for (int i = 1; i < values.size(); i++){
 				vals += " " + values.get(i);
 			}
 		}
-		else {
-			vals = "";
-		}
 		return "[" + vals + "]";
+	}
+	
+	public String getKey(){
+		return key;
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class Entry {
 	public void push(List<Integer> values) {
 		// TODO: implement this
 		List<Integer> new_ls = new ArrayList<Integer>();
-		for (int i = 0; i < values.size(); i++){
+		for (int i = values.size()-1; i >= 0; i--){
 			new_ls.add(values.get(i));
 		}
 		for (int i = 0; i < this.values.size(); i++){
@@ -63,7 +64,7 @@ public class Entry {
 		}
 		this.values = new_ls; 
 	}
-
+	
 	/**
 	 * Adds the values to the end.
 	 *
@@ -84,8 +85,8 @@ public class Entry {
 	 */
 	public Integer pick(int index) {
 		// TODO: implement this
-		Integer a = values.get(index);
-		return a;
+		Integer n = values.get(index-1);
+		return n;
 	}
 
 	/**
@@ -95,8 +96,18 @@ public class Entry {
 	 * @return       the value found
 	 */
 	public Integer pluck(int index) {
-		// TODO: implement this
-		return null;
+		Integer n = values.get(index-1);
+		List<Integer> new_ls = new ArrayList<Integer>();
+		if (values.size() > 1){
+			for(int i = 0; i < values.size(); i++){
+			if (i == index-1){
+				continue;
+			}
+			new_ls.add(values.get(i));
+			}
+		}
+		values = new_ls; 
+		return n;
 	}
 
 	/**
@@ -105,8 +116,9 @@ public class Entry {
 	 * @return the first value
 	 */
 	public Integer pop() {
-		// TODO: implement this
-		return null;
+		Integer n = values.get(0);
+		pluck(1);
+		return n;
 	}
 
 	/**
@@ -170,6 +182,7 @@ public class Entry {
 		for (int i = values.size()-1; i >= 0; i--){
 			newl.add(values.get(i));
 		}
+		System.out.println(newl);
 		values = newl; 
 	}
 	
@@ -177,14 +190,35 @@ public class Entry {
 	 * Removes adjacent duplicate values.
 	 */
 	public void uniq() {
-		// TODO: implement this
+		List<Integer> uniq_ls = new ArrayList<Integer>();
+		if (values.size() > 0){
+			uniq_ls.add(values.get(0));
+			for (int i = 1; i < values.size(); i++){
+				Integer num = values.get(i);
+				if (num == values.get(i-1)){
+					continue;
+				}
+				uniq_ls.add(num);
+			}
+		}
+		values = uniq_ls;
 	}
 
 	/**
 	 * Sorts the list in ascending order.
 	 */
 	public void sort() {
-		// TODO: implement this
+		List<Integer> sort_ls = new ArrayList<Integer>();
+		while (values.size() > 0){
+				Integer lowest = min();
+				sort_ls.add(lowest);
+				int index = values.indexOf(lowest);
+				pluck(index + 1);
+				if (values.size() >= 1){
+					lowest = min();
+				}	
+		}
+		values = sort_ls;
 	}
 
 	/**

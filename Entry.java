@@ -1,5 +1,5 @@
 import java.util.List;
-import java.util.Scanner; 
+import java.util.ArrayList;
 
 /**
  * Entry deals with storing the key and value associated with entries in the
@@ -24,12 +24,17 @@ public class Entry {
 	 * @return  the String of values
 	 */
 	public String get() {
-		String s = "[" + values.get(0);
-		for (int i = 1; i < values.size(); i++){
-			s += " " + values.get(i);
+		
+		if (values.size() > 0){
+			String vals = values.get(0);
+			for (int i = 1; i < values.size(); i++){
+				vals += " " + values.get(i);
+			}
 		}
-		s += "]";
-		return s; 
+		else {
+			vals = "";
+		}
+		return "[" + vals + "]";
 	}
 
 	/**
@@ -49,6 +54,14 @@ public class Entry {
 	 */
 	public void push(List<Integer> values) {
 		// TODO: implement this
+		List<Integer> new_ls = new ArrayList<Integer>();
+		for (int i = 0; i < values.size(); i++){
+			new_ls.add(values.get(i));
+		}
+		for (int i = 0; i < this.values.size(); i++){
+			new_ls.add(this.values.get(i));
+		}
+		this.values = new_ls; 
 	}
 
 	/**
@@ -58,7 +71,9 @@ public class Entry {
 	 */
 	public void append(List<Integer> values) {
 		// TODO: implement this
-		
+		for(int i = 0; i < values.size(); i++){
+			this.values.add(values.get(i));
+		}
 	}
 
 	/**
@@ -99,7 +114,7 @@ public class Entry {
 	 *
 	 * @return the minimum value
 	 */
-	public Integer max() {
+	public Integer min() {
 		Integer min_value = values.get(0);
 		for(int i = 0; i < values.size(); i++){
 			if (values.get(i) < min_value){
@@ -151,7 +166,11 @@ public class Entry {
 	 * Reverses the order of values.
 	 */
 	public void rev() {
-		// TODO: implement this
+		List<Integer> newl = new ArrayList<Integer>();
+		for (int i = values.size()-1; i >= 0; i--){
+			newl.add(values.get(i));
+		}
+		values = newl; 
 	}
 	
 	/**

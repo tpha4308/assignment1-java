@@ -96,18 +96,23 @@ public class Entry {
 	 * @return       the value found
 	 */
 	public Integer pluck(int index) {
-		Integer n = values.get(index-1);
-		List<Integer> new_ls = new ArrayList<Integer>();
-		if (values.size() > 1){
+		Integer result = null;
+		if (values.size() == 0) {
+			return result;
+		}
+		else if (values.size() > 0) {
+			Integer n = values.get(index-1);
+			List<Integer> new_ls = new ArrayList<Integer>();
 			for(int i = 0; i < values.size(); i++){
-			if (i == index-1){
-				continue;
-			}
+				if (i == index-1){
+					continue;
+				}
 			new_ls.add(values.get(i));
 			}
+			values = new_ls; 
+			result = n; 
 		}
-		values = new_ls; 
-		return n;
+		return result;
 	}
 
 	/**
@@ -116,10 +121,9 @@ public class Entry {
 	 * @return the first value
 	 */
 	public Integer pop() {
-		Integer n = values.get(0);
-		pluck(1);
-		return n;
-	}
+		Integer pop_value = pluck(1);
+		return pop_value; 
+	}	
 
 	/**
 	 * Finds the minimum value.
@@ -182,7 +186,6 @@ public class Entry {
 		for (int i = values.size()-1; i >= 0; i--){
 			newl.add(values.get(i));
 		}
-		System.out.println(newl);
 		values = newl; 
 	}
 	
@@ -220,6 +223,52 @@ public class Entry {
 		}
 		values = sort_ls;
 	}
+	
+	//Check if a number is in a list
+	static boolean contain(Integer n, List<Integer> ls) {
+		for (Integer num : ls){
+			if (num == n){
+				return true;
+			}
+		}
+		return false; 
+	}
+	
+	//Return only unique values of a list
+	public static List<Integer> uniqList(List<Integer> ls){
+		List<Integer> dup_ls = new ArrayList<Integer>();
+		List<Integer> uniq_ls = new ArrayList<Integer>();
+		
+		for (Integer n : ls){
+			if (contain(n, uniq_ls) == false){
+				uniq_ls.add(n);
+			}
+			else {
+				dup_ls.add(n);
+			}
+		}
+		return uniq_ls;
+	}
+
+	//Simple difference methods for two entries 
+	public static List<Integer> simpleDiff(List<Integer> ls1, List<Integer> ls2){
+		List<Integer> big_ls = new ArrayList<Integer>();
+		
+		for (int i = 0; i < ls1.size(); i++){
+			big_ls.add(ls1.get(i));
+		}
+		for (int i = 0; i < ls2.size(); i++){
+			big_ls.add(ls2.get(i));
+		}
+		List<Integer> diff = new ArrayList<Integer>();
+		for (Integer n : big_ls){
+			if (contain(n, ls1) && contain(n, ls2)){
+				continue; 
+			}
+			diff.add(n);
+		}
+		return diff;
+	}	
 
 	/**
 	 * Computes the set difference of the entries.
@@ -228,8 +277,38 @@ public class Entry {
 	 * @return         the resulting values
 	 */
 	public static List<Integer> diff(List<Entry> entries) {
-		// TODO: implement this
-		return null;
+		if (entries.size() == 0){
+			return null;
+		}
+		
+		//Case where there is only one entry
+		if (entries.size() == 1){
+			return entries.get(0).values;
+		}
+		
+		//Case where there are more than 2 entries 
+		List<Integer> first_diff = simpleDiff(entries.get(0).values, entries.get(1).values);
+		System.out.println("First diff: " + first_diff);
+		
+		List<List<Integer>> diff_list = new ArrayList<List<Integer>>();
+		diff_list.add(first_diff);
+		
+		int i = 0;
+		while (i < (entries.size()-2)){
+			List<Integer> each_diff = simpleDiff(diff_list.get(i), entries.get(i+2).values);
+			diff_list.add(each_diff);
+			i+=1;
+		}		
+		
+		//Adding all the difference values together in one list
+		List<Integer> result_ls = new ArrayList<Integer>();
+		for(List<Integer> tiny_ls : diff_list){
+			for(Integer val : tiny_ls){
+				result_ls.add(val);
+			}
+		}
+		List<Integer> display_ls = uniqList(result_ls);
+		return display_ls;
 	}
 	
 	/**
@@ -239,8 +318,29 @@ public class Entry {
 	 * @return         the resulting values
 	 */
 	public static List<Integer> inter(List<Entry> entries) {
-		// TODO: implement this
-		return null;
+		if (entries.size() == 0){
+			return null;
+		}
+		if (entries.size() == 1){
+			return entries.get(0).values;
+		}
+		List<Integer> intersect = new ArrayList<Integer>();
+		for (Integer n : entries.get(0).values){
+			boolean belongs_all = true;
+			int i = 1;
+			while (i < entries.size()){
+				boolean check = contain(n, entries.get(i).values);
+				if (check == false){
+					belongs_all = false; 
+				}
+				i+=1;
+			}
+			if (belongs_all == true){
+				intersect.add(n);
+			}
+		}
+		List<Integer> display_inter = uniqList(intersect);
+		return display_inter;
 	}
 
 	/**
@@ -250,8 +350,20 @@ public class Entry {
 	 * @return         the resulting values
 	 */
 	public static List<Integer> union(List<Entry> entries) {
-		// TODO: implement this
-		return null;
+		if (entries.size() == 0){
+			return null;
+		}
+		if (entries.size() == 1){
+			return entries.get(0).values;
+		}
+		List<Integer> union = new ArrayList<Integer>();
+		for (Entry entr : entries){
+			for(Integer n : entr.values){
+				union.add(n);
+			}
+		}
+		List<Integer> display_union = uniqList(union);
+		return display_union; 
 	}
 
 	/**
@@ -261,9 +373,16 @@ public class Entry {
 	 * @return         the resulting values
 	 */
 	public static List<List<Integer>> cartprod(List<Entry> entries) {
-		// TODO: implement this
-		return null;
+		if (entries.size() == 0){
+			return null;
+		}
+		if (entries.size() == 1){
+			return entries.get(0).values;
+		}
+		
+		List<List<Integer>> 
 	}
+
 
 	/**
 	 * Formats all the entries for display.
@@ -278,7 +397,7 @@ public class Entry {
 		}
 		if (entries.size() > 0){
 			
-			for (int i = 0; i < entries.size(); i++){
+			for (int i = entries.size()-1; i >= 0; i--){
 				String key = entries.get(i).getKey();
 				String vals = entries.get(i).get();
 				String each_entry = String.format("%s %s\n", key, vals);
